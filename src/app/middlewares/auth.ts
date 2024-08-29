@@ -11,6 +11,7 @@ const auth = (role: string) => {
         async (req: Request, res: Response, next: NextFunction) => {
             const token = req.headers.authorization?.split(" ")[1]
 
+
             if (!token) {
                 throw new AppError(
                     httpStatus.UNAUTHORIZED,
@@ -25,7 +26,6 @@ const auth = (role: string) => {
 
             const { username } = decoded
 
-            console.log(decoded);
 
             const user = await Auth.isUserExistsByCustomId(username)
 

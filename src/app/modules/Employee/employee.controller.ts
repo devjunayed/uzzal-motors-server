@@ -4,8 +4,10 @@ import { sendResponse } from '../../utils/sendResponse'
 import { EmployeeServices } from './employee.service'
 
 const createEmployee = catchAsync(async (req, res) => {
-    console.log(req.body)
-    const result = await EmployeeServices.createEmployeeIntoDB(req.body)
+    const result = await EmployeeServices.createEmployeeIntoDB(
+        req.body,
+        req.file
+    )
 
     sendResponse(res, {
         success: true,

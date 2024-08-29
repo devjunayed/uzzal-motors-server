@@ -1,7 +1,6 @@
 export type TEmployee = {
     id: string
-    nid?: string
-    birthCertificateNumber?: string
+    birthCertificateNidNumber: string
     imgUrl: string
     name: string
     birthOfDate: string
@@ -22,5 +21,6 @@ export type TEmployee = {
     designation: string
     bloodGroup: string
     joiningDate: string;
-    resigningDate: string
+    resigningDate: string;
+    isCertificateIssued: boolean;
 }

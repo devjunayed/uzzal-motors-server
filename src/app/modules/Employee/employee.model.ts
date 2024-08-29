@@ -11,8 +11,7 @@ const AddressSchema = new Schema({
 
 const EmployeeSchema = new Schema({
     id: {type: String, unique: true},
-    nid: { type: String, unique: true},
-    birthCertificateNumber: { type: String },
+    birthCertificateNidNumber: { type: String, required: true },
     imgUrl: { type: String, required: true },
     name: { type: String, required: true },
     birthOfDate: { type: Date, required: true },
@@ -36,6 +35,12 @@ const EmployeeSchema = new Schema({
     bloodGroup: { type: String, required: true },
     joiningDate: { type: String, required: true },
     resigningDate: { type: String },
+    isCertificateIssued: {type: Boolean, default: false}
+})
+
+
+EmployeeSchema.pre("save", function (next) {
+    console.log(this);
 })
 
 export const Employee = model<TEmployee>('employee', EmployeeSchema)
