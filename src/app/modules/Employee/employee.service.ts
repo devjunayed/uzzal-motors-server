@@ -20,7 +20,14 @@ const createEmployeeIntoDB = async (
     const result = await Employee.create(payload)
     return result
 }
+const getAllEmployeeFromDB = async () => {
+
+    const result = await Employee.find();
+    console.log(result);
+    return result
+}
 
 export const EmployeeServices = {
     createEmployeeIntoDB,
+    getAllEmployeeFromDB
 }

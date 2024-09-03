@@ -11,5 +11,10 @@ router.post(
     upload.single('image'),
     EmployeeController.createEmployee
 )
+router.get(
+    '/employee',
+    auth('admin'),
+    EmployeeController.getAllEmployee
+)
 
 export const EmployeeRoutes = router
