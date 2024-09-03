@@ -1,5 +1,5 @@
-import { model, Schema } from 'mongoose'
-import { TEmployee } from './employee.interface'
+import { model, Schema } from 'mongoose';
+import { TEmployee } from './employee.interface';
 
 const AddressSchema = new Schema({
     district: { type: String, required: true },
@@ -7,10 +7,10 @@ const AddressSchema = new Schema({
     upazila: { type: String, required: true },
     village: { type: String, required: true },
     houseNo: { type: String, required: true },
-})
+});
 
 const EmployeeSchema = new Schema({
-    id: {type: String, unique: true},
+    id: { type: String, unique: true },
     birthCertificateNidNumber: { type: String, required: true },
     imgUrl: { type: String, required: true },
     name: { type: String, required: true },
@@ -35,12 +35,29 @@ const EmployeeSchema = new Schema({
     bloodGroup: { type: String, required: true },
     joiningDate: { type: String, required: true },
     resigningDate: { type: String },
-    isCertificateIssued: {type: Boolean, default: false}
-})
+    isCertificateIssued: { type: Boolean, default: false },
+});
 
+// Pre-save hook to generate a unique ID
+EmployeeSchema.pre('save', async function (next) {
+    if (!this.isNew) return next();
 
-EmployeeSchema.pre("save", function (next) {
-    console.log(this);
-})
+    try {
+        // Get the highest current employee ID
+        const lastEmployee = await Employee.findOne().sort({ id: -1 }).limit(1);
 
-export const Employee = model<TEmployee>('employee', EmployeeSchema)
+        let currentIdNumber = 1; // Default to 1 if no previous employees
+
+        if (lastEmployee) {
+            const lastEmployeeId = lastEmployee.id.split('-')[1];
+            currentIdNumber = Number(lastEmployeeId) + 1;
+        }
+
+        this.id = `MUM-${currentIdNumber.toString().padStart(3, '0')}`;
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
+export const Employee = model<TEmployee>('employee', EmployeeSchema);
